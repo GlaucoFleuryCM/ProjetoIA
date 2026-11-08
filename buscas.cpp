@@ -22,10 +22,11 @@ static double heuristica(const vector<Vertice>& vertices, int atual, int destino
 /* Retorna o resultado da Busca no objeto 'ResultadoBusca'; esse
    objeto está definido em 'buscas.h' */
 static ResultadoBusca monta_resultado(const Busca& busca, const vector<int>& pai, const vector<double>& custo, const vector<int>& nos_considerados, bool sucesso){
-    ResultadoBusca resultado{{}, 0.0, nos_considerados, {}, sucesso};
+    ResultadoBusca resultado{{}, 0.0, nos_considerados, {}, {}, sucesso};
 
     for(int no : nos_considerados){
         resultado.pais_considerados.push_back(pai[no]);
+        resultado.custos_considerados.push_back(custo[no]);
     }
 
     if(!sucesso){
@@ -203,7 +204,7 @@ ResultadoBusca busca_dijkstra(const Busca& busca, const vector<vector<Vizinho>>&
    diferente do Best-First, o Hill-Climbing jamais retorna para ramos 
    anteriores no Grafo */
 ResultadoBusca busca_hill_climbing(const Busca& busca, const vector<vector<Vizinho>>& adjacencias, const vector<Vertice>& vertices){
-    ResultadoBusca resultado{{busca.origem}, 0.0, {busca.origem}, {-1}, false};
+    ResultadoBusca resultado{{busca.origem}, 0.0, {busca.origem}, {-1}, {0.0}, false};
     int atual = busca.origem;
 
     while(atual != busca.destino){
@@ -232,6 +233,7 @@ ResultadoBusca busca_hill_climbing(const Busca& busca, const vector<vector<Vizin
         resultado.peso_final_escolhido += peso_melhor;
         resultado.caminho_escolhido.push_back(atual);
         resultado.nos_considerados.push_back(atual);
+        resultado.custos_considerados.push_back(resultado.peso_final_escolhido);
     }
 
     resultado.sucesso = true;

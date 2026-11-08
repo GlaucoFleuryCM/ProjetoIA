@@ -14,6 +14,7 @@ struct ResultadoBusca{
     em ordem cronológica (para visualização posterior) */
     vector<int> nos_considerados; 
     vector<int> pais_considerados; 
+    vector<double> custos_considerados;
     bool sucesso; // busca falha ou não
 };
 

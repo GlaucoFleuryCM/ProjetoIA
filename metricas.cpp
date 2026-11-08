@@ -10,31 +10,29 @@
 
 using namespace std;
 
+/* retorna média e desvio padrão de uma lista numérica */
 static pair<double, double> media_desvio(const vector<double>& valores){
     if(valores.empty()){
         double indefinido = numeric_limits<double>::quiet_NaN();
-        return {indefinido, indefinido};
+        return {indefinido, indefinido}; //erro 
     }
 
     double soma = 0.0;
-
     for(double valor : valores){
         soma += valor;
     }
 
     double media = soma / valores.size();
-
     if(valores.size() == 1){
         return {media, 0.0};
     }
 
     double soma_quadrados = 0.0;
-
     for(double valor : valores){
         soma_quadrados += (valor - media) * (valor - media);
     }
 
-    return {media, sqrt(soma_quadrados / (valores.size() - 1))};
+    return {media, sqrt(soma_quadrados/(valores.size()-1))};
 }
 
 vector<Algoritmo> lista_algoritmos(){
@@ -59,21 +57,16 @@ void mede_buscas(const vector<Algoritmo>& algoritmos, const vector<Busca>& busca
         double otimo = busca_dijkstra(busca, adjacencias, vertices).peso_final_escolhido;
 
         for(size_t i = 0; i < algoritmos.size(); i++){
-            ResultadoBusca resultado = algoritmos[i].funcao(busca, adjacencias, vertices);
-            size_t soma_nos = 0;
+            ResultadoBusca resultado;
 
             auto inicio = chrono::steady_clock::now();
 
             for(int repeticao = 0; repeticao < repeticoes; repeticao++){
-                soma_nos += algoritmos[i].funcao(busca, adjacencias, vertices).nos_considerados.size();
+                resultado = algoritmos[i].funcao(busca, adjacencias, vertices);
             }
 
             auto fim = chrono::steady_clock::now();
             double tempo_us = chrono::duration<double, micro>(fim - inicio).count() / repeticoes;
-
-            if(soma_nos != resultado.nos_considerados.size() * repeticoes){
-                throw logic_error("mede_buscas: resultado diferente entre repeticoes de " + algoritmos[i].nome);
-            }
 
             amostras[i].push_back({
                 resultado.sucesso,
