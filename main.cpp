@@ -89,7 +89,7 @@ int main(int argc, char *argv[]){
                 ready_cnt++;
             }
 
-            for(size_t i = 0; analyze && i < algoritmos.size(); i++){
+            for(size_t i = 0; i < algoritmos.size(); i++){
                 Metricas m = resume_amostras(algoritmos[i].nome, amostras[i]);
                 csv << lambda << "," << m.nome << "," << m.total_buscas << "," << m.sucessos << ","
                     << m.distancia_media << "," << m.distancia_desvio << ","
