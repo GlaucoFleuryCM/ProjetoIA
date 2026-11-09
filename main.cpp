@@ -40,38 +40,24 @@ static bool botao(Rectangle r, const char* texto, Color cor){
 }
 
 int main(int argc, char *argv[]){
-    bool visualize = false;
-    bool analyze = false;
+    bool visualize = true;
     int n = 200;
 
-    if(argc==2 || argc==3){
-        if(string(argv[1])=="visualize"){
-            visualize = true;
+    if(argc==2){
+        if(string(argv[1])=="no-visualize"){
+            visualize = false;
         }
-        if(string(argv[1])=="analyze"){
-            cout << "Analyzing..." << endl;
-            analyze = true;
-        }
-        if(string(argv[1])=="both"){
-            visualize = true;
-            analyze = true;
+        else{
+            n = atoi(argv[2]);
+            if(n < 2){
+                cout << "n_vertices deve ser um inteiro maior que 1\n";
+                return 1;
+            }
         }
     }
-    else if(argc==1){ // o padrão é fazer visualização e análise
-        visualize = true;
-        analyze = true;
-    }
-    else{
-        cout << "usage: " << argv[0] << " [visualize|analyze|both] [n_vertices]\n";
+    else if(argc!=1){ // o padrão é fazer visualização com 200 nós
+        cout << "usage: " << argv[0] << " [n_vertices|no-visualize]\n";
         return 1;
-    }
-
-    if(argc==3){
-        n = atoi(argv[2]);
-        if(n < 2){
-            cout << "n_vertices deve ser um inteiro maior que 1\n";
-            return 1;
-        }
     }
 
     const vector<double> lambdas = {0.01, 0.02, 0.03};
@@ -85,10 +71,8 @@ int main(int argc, char *argv[]){
 
     auto analise = [&](){
         ofstream csv;
-        if(analyze){
-            csv.open("resultados.csv");
-            csv << "lambda,algoritmo,buscas,sucessos,distancia_media,distancia_desvio,tempo_medio_us,tempo_desvio_us\n";
-        }
+        csv.open("resultados.csv");
+        csv << "lambda,algoritmo,buscas,sucessos,distancia_media,distancia_desvio,tempo_medio_us,tempo_desvio_us\n";
 
         for(double lambda : lambdas){
             vector<vector<AmostraBusca>> amostras;
@@ -115,7 +99,7 @@ int main(int argc, char *argv[]){
     };
 
     thread thread_analise;
-    if(analyze || visualize) thread_analise = thread(analise);
+    thread_analise = thread(analise);
 
     if(visualize){
         InitWindow(1150, 600, "visualização");
