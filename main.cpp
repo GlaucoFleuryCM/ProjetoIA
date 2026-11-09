@@ -42,7 +42,7 @@ static bool botao(Rectangle r, const char* texto, Color cor){
 int main(int argc, char *argv[]){
     bool visualize = false;
     bool analyze = false;
-    int n = 2500;
+    int n = 200;
 
     if(argc==2 || argc==3){
         if(string(argv[1])=="visualize"){
