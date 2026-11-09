@@ -40,14 +40,24 @@ static bool botao(Rectangle r, const char* texto, Color cor){
 }
 
 int main(int argc, char *argv[]){
-    bool visualize = true;
-    int n = 200;
+    bool visualize;
+    bool analyze;
+    int n;
 
-    if(argc==2){
-        if(string(argv[1])=="no-visualize"){
-            visualize = false;
+    if(argc==2 | argc==3){
+        if(string(argv[1])=="visualize"){
+            visualize = true;
+            n = 200;
+        }
+        else if(string(argv[1])=="analyze"){
+            analyze = true;
+            n = 2500;
         }
         else{
+            cout << "usage: " << argv[0] << " <analyze|visualize> [n_vertices]\n";
+            return 1;
+        }
+        if(argc==3){
             n = atoi(argv[1]);
             if(n < 2){
                 cout << "n_vertices deve ser um inteiro maior que 1\n";
@@ -56,7 +66,7 @@ int main(int argc, char *argv[]){
         }
     }
     else if(argc!=1){ // o padrão é fazer visualização com 200 nós
-        cout << "usage: " << argv[0] << " [n_vertices|no-visualize]\n";
+        cout << "usage: " << argv[0] << " <analyze|visualize> [n_vertices]\n";
         return 1;
     }
 
