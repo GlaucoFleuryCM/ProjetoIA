@@ -389,23 +389,21 @@ static bool eh_otimo(const Visualizacao& vis, const vector<Algoritmo>& algoritmo
 }
 
 void desenha_hud(const Visualizacao& vis, const vector<Algoritmo>& algoritmos, [[maybe_unused]] const vector<Busca>& buscas, const vector<ResultadoBusca>& resultados){
-    const ResultadoBusca& resultado = resultado_atual(vis, algoritmos, resultados);
+    static const ResultadoBusca vazio{{}, 0.0, {}, {}, {}, true};
+    const ResultadoBusca& resultado = resultados.empty() ? vazio : resultado_atual(vis, algoritmos, resultados);
+    Color cor = resultados.empty() ? GRAY : RAYWHITE;
     int x = 12, y = 12, tamanho = 20, linha = 24;
 
-    Color cor_nome = eh_otimo(vis, algoritmos, resultados) ? Color{255, 232, 170, 255} : RAYWHITE;
+    Color cor_nome = !resultados.empty() && eh_otimo(vis, algoritmos, resultados) ? Color{255, 232, 170, 255} : cor;
     DrawText(algoritmos[vis.method].nome.c_str(), x, y, tamanho * 3 / 2, cor_nome);
     y += linha * 3 / 2;
-    DrawText(TextFormat("Nós considerados: %d/%d", nos_revelados(vis, resultado), (int)resultado.nos_considerados.size()), x, y, tamanho, RAYWHITE);
+    DrawText(TextFormat("Nós considerados: %d/%d", nos_revelados(vis, resultado), (int)resultado.nos_considerados.size()), x, y, tamanho, cor);
     y += linha;
-    if(resultado.sucesso){
-        DrawText(TextFormat("Custo do caminho: %.1f", resultado.peso_final_escolhido), x, y, tamanho, RAYWHITE);
-    }
-    else{
-        DrawText("Falhou (não chegou ao destino)", x, y, tamanho, RAYWHITE);
-    }
+    if(resultado.sucesso) DrawText(TextFormat("Custo do caminho: %.1f", resultado.peso_final_escolhido), x, y, tamanho, cor);
+    else DrawText("Falhou (não chegou ao destino)", x, y, tamanho, cor);
     y += linha;
-    DrawText(TextFormat("Velocidade: %.0f nós/s%s", vis.speed, vis.paused ? "  [PAUSADO]" : ""), x, y, tamanho, RAYWHITE);
+    DrawText(TextFormat("Velocidade: %.0f nós/s%s", vis.speed, vis.paused ? "  [PAUSADO]" : ""), x, y, tamanho, cor);
 
     DrawText("esq/dir: mudar algoritmo | cima/baixo: mudar nó inicial e final | espaço: pausar | R: reiniciar | enter: resultado | +/-: mudar velocidade | Q: sair",
-             x, GetScreenHeight() - linha, 16, ColorAlpha(RAYWHITE, 0.6f));
+             x, GetScreenHeight() - linha, 16, ColorAlpha(cor, 0.6f));
 }

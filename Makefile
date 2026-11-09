@@ -19,4 +19,4 @@ run: $(EXECUTAVEL)
 	./$(EXECUTAVEL)
 
 clean:
-	rm -f $(OBJS) $(EXECUTAVEL)
+	rm -f $(OBJS) $(EXECUTAVEL) *.csv
