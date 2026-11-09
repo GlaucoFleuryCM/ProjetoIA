@@ -37,8 +37,8 @@ static pair<double, double> media_desvio(const vector<double>& valores){
 
 vector<Algoritmo> lista_algoritmos(){
     return {
-        {"Profundidade", busca_profundidade},
-        {"Largura", busca_largura},
+        {"DFS", busca_profundidade},
+        {"BFS", busca_largura},
         {"Best-First", busca_best_first},
         {"A*", busca_a_estrela},
         {"Hill Climbing", busca_hill_climbing},
@@ -46,7 +46,9 @@ vector<Algoritmo> lista_algoritmos(){
     };
 }
 
-void mede_buscas(const vector<Algoritmo>& algoritmos, const vector<Busca>& buscas, const vector<vector<Vizinho>>& adjacencias, const vector<Vertice>& vertices, int repeticoes, vector<vector<AmostraBusca>>& amostras){
+vector<ResultadoBusca> mede_buscas(const vector<Algoritmo>& algoritmos, const vector<Busca>& buscas, const vector<vector<Vizinho>>& adjacencias, const vector<Vertice>& vertices, int repeticoes, vector<vector<AmostraBusca>>& amostras){
+    vector<ResultadoBusca> resultados;
+
     if(repeticoes < 1){
         throw invalid_argument("mede_buscas: repeticoes deve ser pelo menos 1, mas recebeu " + to_string(repeticoes));
     }
@@ -75,8 +77,12 @@ void mede_buscas(const vector<Algoritmo>& algoritmos, const vector<Busca>& busca
                 (int)resultado.nos_considerados.size(),
                 tempo_us
             });
+
+            resultados.push_back(resultado);
         }
     }
+
+    return resultados;
 }
 
 Metricas resume_amostras(const string& nome, const vector<AmostraBusca>& amostras){

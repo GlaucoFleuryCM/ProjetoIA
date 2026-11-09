@@ -38,7 +38,7 @@ struct Metricas{
 };
 
 vector<Algoritmo> lista_algoritmos();
-void mede_buscas(const vector<Algoritmo>& algoritmos, const vector<Busca>& buscas, const vector<vector<Vizinho>>& adjacencias, const vector<Vertice>& vertices, int repeticoes, vector<vector<AmostraBusca>>& amostras);
+vector<ResultadoBusca> mede_buscas(const vector<Algoritmo>& algoritmos, const vector<Busca>& buscas, const vector<vector<Vizinho>>& adjacencias, const vector<Vertice>& vertices, int repeticoes, vector<vector<AmostraBusca>>& amostras);
 Metricas resume_amostras(const string& nome, const vector<AmostraBusca>& amostras);
 
 #endif
