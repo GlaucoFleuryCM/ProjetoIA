@@ -48,7 +48,7 @@ int main(int argc, char *argv[]){
             visualize = false;
         }
         else{
-            n = atoi(argv[2]);
+            n = atoi(argv[1]);
             if(n < 2){
                 cout << "n_vertices deve ser um inteiro maior que 1\n";
                 return 1;
