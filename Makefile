@@ -15,8 +15,5 @@ $(EXECUTAVEL): $(OBJS)
 %.o: %.cpp %.h
 	$(CXX) -c -o $@ $(CXXFLAGS) -Iinclude/ $<
 
-run: $(EXECUTAVEL)
-	./$(EXECUTAVEL)
-
 clean:
 	rm -f $(OBJS) $(EXECUTAVEL) *.csv
