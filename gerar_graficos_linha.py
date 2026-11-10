@@ -1,11 +1,5 @@
 """
 Gera um único gráfico de linhas (3 painéis) comparando todos os lambdas.
-
-- Eixo X: algoritmos. Uma linha (cor) por lambda.
-- Painéis: distância média (± desvio), tempo médio (± desvio) e taxa de sucesso.
-- No painel de distância, cada lambda tem uma baseline tracejada (Dijkstra/A*, ótimos),
-  na mesma cor do lambda. Pontos abaixo da baseline não são plotados e os pontos adjacentes são ligados.
-
 Uso:
     python gerar_graficos.py dados.csv
     python gerar_graficos.py dados.csv --saida graficos --mostrar
