@@ -65,7 +65,7 @@ int main(int argc, char *argv[]){
             }
         }
     }
-    else if(argc!=1){ // o padrão é fazer visualização com 200 nós
+    else{ // o padrão é fazer visualização com 200 nós
         cout << "usage: " << argv[0] << " <analyze|visualize> [n_vertices]\n";
         return 1;
     }
