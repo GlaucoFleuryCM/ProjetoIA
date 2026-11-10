@@ -1,10 +1,5 @@
 """
 Gera 1 figura por valor de lambda a partir de um CSV de benchmark de algoritmos de busca.
-
-- Painel de distância: baseline = distância média do Dijkstra/A* (ótimos). Barras abaixo
-  da baseline não são plotadas (resultado inválido: só contam os casos em que houve sucesso).
-- Eixos Y de distância e de tempo são iguais em todas as figuras.
-
 Uso:
     python gerar_graficos.py dados.csv
     python gerar_graficos.py dados.csv --saida graficos --mostrar

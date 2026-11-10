@@ -40,11 +40,11 @@ static bool botao(Rectangle r, const char* texto, Color cor){
 }
 
 int main(int argc, char *argv[]){
-    bool visualize;
-    bool analyze;
+    bool visualize = false;
+    bool analyze = false;
     int n;
 
-    if(argc==2 | argc==3){
+    if(argc==2 || argc==3){
         if(string(argv[1])=="visualize"){
             visualize = true;
             n = 200;
@@ -58,7 +58,7 @@ int main(int argc, char *argv[]){
             return 1;
         }
         if(argc==3){
-            n = atoi(argv[1]);
+            n = atoi(argv[2]);
             if(n < 2){
                 cout << "n_vertices deve ser um inteiro maior que 1\n";
                 return 1;
@@ -81,8 +81,10 @@ int main(int argc, char *argv[]){
 
     auto analise = [&](){
         ofstream csv;
-        csv.open("resultados.csv");
-        csv << "lambda,algoritmo,buscas,sucessos,distancia_media,distancia_desvio,tempo_medio_us,tempo_desvio_us\n";
+        if(analyze){
+            csv.open("resultados.csv");
+            csv << "lambda,algoritmo,buscas,sucessos,distancia_media,distancia_desvio,tempo_medio_us,tempo_desvio_us\n";
+        }
 
         for(double lambda : lambdas){
             vector<vector<AmostraBusca>> amostras;
@@ -99,7 +101,7 @@ int main(int argc, char *argv[]){
                 ready_cnt++;
             }
 
-            for(size_t i = 0; i < algoritmos.size(); i++){
+            for(size_t i = 0; analyze && i < algoritmos.size(); i++){
                 Metricas m = resume_amostras(algoritmos[i].nome, amostras[i]);
                 csv << lambda << "," << m.nome << "," << m.total_buscas << "," << m.sucessos << ","
                     << m.distancia_media << "," << m.distancia_desvio << ","
